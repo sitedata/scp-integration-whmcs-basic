@@ -1,0 +1,37 @@
+{
+	"name": "synergycp/scp-integration-whmcs-basic",
+	"description": "Synergy Control Panel Basic WHMCS",
+	"keywords": ["Synergy", "Server", "Control", "Panel", "Dedicated"],
+	"license": "none",
+	"type": "project",
+	"require": {
+	},
+	"require-dev": {
+	},
+	"repositories": [],
+	"autoload": {
+		"classmap": [
+            "bootstrap/autoload.php"
+		],
+		"psr-4": {
+			"Scp\\": "Scp/src",
+            "Scp\\WhmcsBasic\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/TestCase.php"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+		],
+		"post-update-cmd": [
+		],
+		"post-create-project-cmd": [
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	}
+}
