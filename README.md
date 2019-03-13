@@ -1,6 +1,6 @@
 ### Setup
 
- 1. Download and extract the WHMCS integration [here](https://install.synergycp.com/bm/integration/whmcs/synergycpbasic.zip)
+ 1. Download and extract the WHMCS Basic integration [here](https://install.synergycp.com/bm/integration/whmcs/synergycpbasic.zip)
  2. Copy the entire directory via FTP, SCP, etc. to `/<WHMCS_PATH>/modules/servers/synergycpbasic/`
  3. Go to SynergyCP Admin > System > Integrations.
  4. Add an Integration for WHMCS.
