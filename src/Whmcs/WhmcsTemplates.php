@@ -5,6 +5,7 @@ use Scp\WhmcsBasic\Server\ServerService;
 use Scp\WhmcsBasic\Client\ClientService;
 use Scp\WhmcsBasic\Api;
 use Scp\WhmcsBasic\Database\Database;
+use Scp\Api\ApiSingleSignOn;
 
 class WhmcsTemplates
 {
@@ -69,6 +70,7 @@ class WhmcsTemplates
                 'MODULE_FOLDER' => '/modules/servers/synergycpbasic',
                 'apiKey' => $apiKey->key,
                 'apiUrl' => $urlApi,
+                'embedUrl' => $this->getEmbeddedServerManagerUrl(),
             ],
         ];
     }
@@ -83,6 +85,21 @@ class WhmcsTemplates
         }
 
         return $randomString;
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getEmbeddedServerManagerUrl()
+    {
+        $apiKey = $this->client->apiKey();
+        $server = $this->server->currentOrFail();
+        $sso = new ApiSingleSignOn($apiKey);
+        if ($server) {
+            $sso->view($server);
+        }
+        return $sso->embeddedUrl();
     }
 
     public static function functions()
