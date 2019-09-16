@@ -6,6 +6,7 @@ use Scp\WhmcsBasic\Client\ClientService;
 use Scp\WhmcsBasic\Api;
 use Scp\WhmcsBasic\Database\Database;
 use Scp\Api\ApiSingleSignOn;
+use Scp\WhmcsBasic\Whmcs\WhmcsConfig;
 
 class WhmcsTemplates
 {
@@ -33,16 +34,30 @@ class WhmcsTemplates
      */
     protected $database;
 
+    /**
+     * @var WhmcsConfig
+     */
+    protected $config;
+
+    /**
+     * @param Api                       $api
+     * @param Database                  $database
+     * @param ClientService             $client
+     * @param ServerService             $server
+     * @param WhmcsConfig               $config
+     */
     public function __construct(
         Api $api,
         Database $database,
         ClientService $client,
-        ServerService $server
+        ServerService $server,
+        WhmcsConfig $config
     ) {
         $this->api = $api;
         $this->client = $client;
         $this->server = $server;
         $this->database = $database;
+        $this->config = $config;
     }
 
     public function clientArea()
@@ -60,6 +75,8 @@ class WhmcsTemplates
         $apiKey = $this->client->apiKey();
         $urlApi = $this->api->baseUrl();
         $password = $this->generatePassword(10);
+        $manage = $this->config->option(WhmcsConfig::CLIENT_MANAGE_BUTTON);
+        $embed = $this->config->option(WhmcsConfig::CLIENT_EMBEDDED_SERVER_MANAGE);
 
         return [
             'templatefile' => 'clientarea',
@@ -70,7 +87,9 @@ class WhmcsTemplates
                 'MODULE_FOLDER' => '/modules/servers/synergycpbasic',
                 'apiKey' => $apiKey->key,
                 'apiUrl' => $urlApi,
-                'embedUrl' => $this->getEmbeddedServerManagerUrl(),
+                'manage' => $manage,
+                'embed' => $embed,
+                'embedUrl' => $this->getEmbeddedUrl(),
             ],
         ];
     }
@@ -91,15 +110,14 @@ class WhmcsTemplates
      * @return string
      *
      */
-    public function getEmbeddedServerManagerUrl()
+    public function getEmbeddedUrl()
     {
         $apiKey = $this->client->apiKey();
         $server = $this->server->currentOrFail();
-        $sso = new ApiSingleSignOn($apiKey);
-        if ($server) {
-            $sso->view($server);
-        }
-        return $sso->embeddedUrl();
+        return (new ApiSingleSignOn($apiKey))
+          ->view($server)
+          ->embed()
+          ->url();
     }
 
     public static function functions()
