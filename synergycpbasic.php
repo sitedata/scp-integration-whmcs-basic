@@ -42,6 +42,7 @@ function _synergycpbasic_map_static_class($class)
 }
 
 _synergycpbasic_map_class(Whmcs\WhmcsButtons::class);
+_synergycpbasic_map_class(Whmcs\WhmcsConfig::class);
 _synergycpbasic_map_class(Whmcs\WhmcsTemplates::class);
 _synergycpbasic_map_static_class(Whmcs\Whmcs::class);
 _synergycpbasic_map_static_class(Whmcs\WhmcsButtons::class);

@@ -134,10 +134,10 @@ class WhmcsConfig
     //     return $this->getDepartmentNames()->search($escaped);
     // }
 
-    // public static function functions()
-    // {
-    //     return [
-    //         static::FORM => 'form',
-    //     ];
-    // }
+    public static function functions()
+    {
+        return [
+            static::FORM => 'form',
+        ];
+    }
 }
